@@ -1,0 +1,63 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: astral
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/astral?charset=utf8&loc=Local
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password: ''
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+      logic-delete-field: is_deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  type-handlers-package: com.baomidou.mybatisplus.extension.handlers
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        security: error
+astral:
+  # 文件上传方式：本地-local 又拍云-upyun
+  uploadType: "local"
+  # 资源目录
+  # 本地资源目录
+  uploadDir: "D:/java/astral-service/static"
+  # 又拍云资源目录
+#  uploadDir: "/static"
+upyun:
+  bucket: ??
+  operator: ??
+  password: ??
+  # 又拍云加速域名
+  domain: ??
+dev:
+  currentAbPath: "D:/java/astral-service"
+  cadDwgConverterAbPath: "D:/java/astral-service/static/lib/libredwg"
+  temporaryFolder: "D:/java/astral-service/static/tmp"

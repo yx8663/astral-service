@@ -1,0 +1,4 @@
+.idea
+
+static/tmp/*
+static/upload/*

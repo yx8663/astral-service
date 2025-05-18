@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.astral.system.mapper.LbSysUserMapper">
+
+    <resultMap type="com.astral.system.entity.LbSysUser" id="LbSysUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="deltag" column="delTag" jdbcType="INTEGER"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="lastlogintime" column="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result property="lastloginip" column="lastLoginIp" jdbcType="VARCHAR"/>
+        <result property="registerip" column="registerIp" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="deltime" column="delTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+</mapper>
+
