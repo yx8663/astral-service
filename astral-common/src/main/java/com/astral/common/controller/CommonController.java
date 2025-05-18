@@ -122,7 +122,7 @@ public class CommonController {
             String bizPath = request.getParameter("biz");
             // 上传并返回新文件名称
             String fileName = CommonUtils.upload(bizPath, file);
-            return Result.success(fileName);
+            return Result.success("上传成功",fileName);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.error(e.getMessage());
