@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.astral.business.scenes.entity.Lb3dEditorScenesExample;
 import com.astral.business.scenes.service.Lb3dEditorScenesExampleService;
 import com.astral.common.result.Result;
+import com.astral.common.utils.CommonUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.astral.business.scenes.entity.Lb3dEditorScenes;
@@ -149,7 +150,6 @@ public class Lb3dEditorScenesController {
             result.put("pages", count / limit);
             result.put("total", count);
             return Result.success(result);
-//            return Result.success(lb3dEditorScenesService.page(page, queryWrapper));
         } catch (Exception e) {
             return Result.error(e.getMessage());
         }
@@ -157,8 +157,34 @@ public class Lb3dEditorScenesController {
 
     @PutMapping("/update/{id}")
     public Result<?> put(@PathVariable("id") String id, @RequestBody Lb3dEditorScenes lb3dEditorScenes) {
+        Lb3dEditorScenes oldScenes = lb3dEditorScenesService.getById(id);
+        if (oldScenes != null) {
+            String zip = oldScenes.getZip();
+            if (StringUtils.hasLength(zip)) {
+                // 删除文件父级的文件夹及其下所有文件
+
+                String folder = zip.substring(0, zip.lastIndexOf("/"));
+                if (!CommonUtils.deleteFile(folder)) {
+                    throw new RuntimeException(folder + " 删除文件失败");
+                }
+            }
+            String oldCoverPicture = oldScenes.getCoverPicture();
+            if (StringUtils.hasLength(oldCoverPicture)) {
+                // 判断封面图是否变更
+                if (!oldCoverPicture.equals(lb3dEditorScenes.getCoverPicture())) {
+                    if (!CommonUtils.deleteFile(oldCoverPicture)) {
+                        throw new RuntimeException(oldCoverPicture + " 删除文件失败");
+                    }
+                }
+            }
+        }
         lb3dEditorScenes.setId(id);
-        return Result.toAjax(lb3dEditorScenesService.updateById(lb3dEditorScenes));
+        boolean b = lb3dEditorScenesService.updateById(lb3dEditorScenes);
+        if (b) {
+            return Result.success(lb3dEditorScenes);
+        } else {
+            return Result.error("更新失败");
+        }
     }
 
     @DeleteMapping("/del/{id}")

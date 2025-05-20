@@ -52,7 +52,7 @@ public class FileUploadUtils {
     }
 
     public static final File getAbsoluteFile(String uploadDir, String fileName) {
-        File desc = new File(defaultBaseDir +  File.separator + getPathFileName(uploadDir, fileName));
+        File desc = new File(defaultBaseDir +  "/" + getPathFileName(uploadDir, fileName));
         if (!desc.exists()) {
             if (!desc.getParentFile().exists()) {
                 desc.getParentFile().mkdirs();
@@ -63,7 +63,7 @@ public class FileUploadUtils {
 
     public static final String getPathFileName(String uploadDir, String fileName) {
         if (StringUtils.hasLength(uploadDir)) {
-            return uploadDir +  File.separator + fileName;
+            return uploadDir +  "/" + fileName;
         } else {
             return fileName;
         }

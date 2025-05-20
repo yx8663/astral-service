@@ -1,13 +1,19 @@
 package com.astral.common.utils;
 
+import com.UpYun;
 import com.astral.common.config.AstralConfig;
 import com.upyun.FormUploader;
 import com.upyun.Params;
 import com.upyun.Result;
+import com.upyun.UpException;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UpYunUtil {
@@ -61,7 +67,7 @@ public class UpYunUtil {
         Map<String, Object> paramsMap = new HashMap<>();
         String uploadDir = AstralConfig.getUploadDir();
         if (StringUtils.hasLength(uploadDir)) {
-            savePath = uploadDir + File.separator + savePath;
+            savePath = uploadDir + "/" + savePath;
         }
         paramsMap.put(Params.SAVE_KEY, savePath);
 
@@ -80,6 +86,32 @@ public class UpYunUtil {
             throw new RuntimeException("文件上传失败->" + e.getMessage());
         }
         return savePath;
+    }
+
+    public static boolean deleteFile(String dirPath) throws IOException, UpException {
+        UpYun upyun = new UpYun(bucket, operator, password);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(UpYun.PARAMS.KEY_X_LIST_LIMIT.getValue(), "100");
+        List<UpYun.FolderItem> folderItems = new ArrayList<>();
+        do {
+            folderItems = upyun.readDir(dirPath, params);
+            if (!CollectionUtils.isEmpty(folderItems)) {
+                folderItems.forEach(item -> {
+                    try {
+                        if ("folder".equals(item.type) || "Folder".equals(item.type)) {
+                            deleteFile(dirPath + "/" + item.name);
+                        } else {
+                            upyun.deleteFile(dirPath + "/" + item.name, null);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (UpException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+        } while (!CollectionUtils.isEmpty(folderItems));
+        return upyun.rmDir(dirPath);
     }
 
 }

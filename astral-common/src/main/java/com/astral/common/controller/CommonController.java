@@ -36,7 +36,7 @@ public class CommonController {
             // 本地资源路径
             String localPath = AstralConfig.getUploadDir();
             // 数据库资源地址
-            String downloadPath = localPath + File.separator + fileUrl;
+            String downloadPath = localPath + "/" + fileUrl;
             // 下载名称
             String downloadName = StringUtils.substringAfterLast(downloadPath, "/");
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
@@ -68,7 +68,7 @@ public class CommonController {
                 if (imgPath.endsWith(",")) {
                     imgPath = imgPath.substring(0, imgPath.length() - 1);
                 }
-                String filePath = AstralConfig.getUploadDir() + File.separator + imgPath;
+                String filePath = AstralConfig.getUploadDir() + "/" + imgPath;
                 filePath = URLDecoder.decode(filePath, "UTF-8");
                 File file = new File(filePath);
                 if(!file.exists()){

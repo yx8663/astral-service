@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.concurrent.*;
 
 @Component
@@ -40,6 +42,19 @@ public class WebSocket {
             log.info("【websocket消息】有新的连接，总数为:" + webSockets.size());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @OnMessage
+    public void onMessage(Session session, ByteBuffer byteBuffer) {
+        System.out.println("收到心跳信息");
+        if (byteBuffer.remaining() == 1 && byteBuffer.get(0) == (byte) 0x9) {
+            try {
+                byteBuffer.rewind();
+                session.getBasicRemote().sendBinary(ByteBuffer.wrap(new byte[]{0xA}));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
