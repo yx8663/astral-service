@@ -51,7 +51,8 @@ public class CommonUtils {
             if (CommonConstant.UPLOAD_TYPE_UPYUN.equals(defaultUploadType)) {
                 return UpYunUtil.deleteFile(dirPath);
             } else {
-                org.apache.commons.io.FileUtils.deleteDirectory(new File(dirPath));
+                File file = new File(dirPath);
+                org.apache.commons.io.FileUtils.forceDelete(file);
                 return true;
             }
         } catch (Exception e) {
