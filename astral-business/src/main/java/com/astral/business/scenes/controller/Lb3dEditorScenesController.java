@@ -147,7 +147,7 @@ public class Lb3dEditorScenesController {
             result.put("items", resultPage.getRecords());
             result.put("current", offset + 1);
             result.put("pageSize", limit);
-            result.put("pages", count / limit);
+            result.put("pages", (count + limit - 1) / limit);
             result.put("total", count);
             return Result.success(result);
         } catch (Exception e) {
