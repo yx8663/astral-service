@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: astral-service
+  profiles:
+    active: dev
