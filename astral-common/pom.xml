@@ -66,14 +66,6 @@
             <version>3.17.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.astral</groupId>
-            <artifactId>astral-base</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/astral-base-1.0.0.jar</systemPath>
-        </dependency>
-
     </dependencies>
 
 </project>
